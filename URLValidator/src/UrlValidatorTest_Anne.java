@@ -27,43 +27,42 @@ import junit.framework.TestCase;
  *
  * @version $Revision: 1128446 $ $Date: 2011-05-27 13:29:27 -0700 (Fri, 27 May 2011) $
  */
-public class UrlValidatorTest extends TestCase {
+public class UrlValidatorTest_Anne extends TestCase {
 
    private boolean printStatus = false;
    private boolean printIndex = false;//print index that indicates current scheme,host,port,path, query test were using.
-   
-   public UrlValidatorTest(String testName) {
+
+   public UrlValidatorTest_Anne(String testName) {
       super(testName);
    }
-   // valid urlParts
-   String valid_schemes[]={};
-   String valid_hosts[]={};
-   String valid_ports[]={};
-   String valid_queries[]={};
-   String valid_paths[]={};
-   String valid_fragments[]={};
-   //invalid urlParts
-   String invalid_schemes[]={};
-   String invalid_hosts[]={};
-   String invalid_ports[]={};
-   String invalid_queries[]={};
-   String invalid_paths[]={};
-   String invalid_fragments[]={};
-   
-   
-   
-   
-   public void genTestSet(String schemes[],String hosts[],String ports[], String queries[],String path[], String fragments[]){
-	   
-   };
-   
+
+
    
    public void testManualTest()
    {
 	   UrlValidator urlVal = new UrlValidator(null, null, UrlValidator.ALLOW_ALL_SCHEMES);
+	  
+	   //true
 	   System.out.println(urlVal.isValid("http://www.amazon.com"));
-	   System.out.println(urlVal.isValid("http://www.amazon.com/path#div"));
+	   System.out.println(urlVal.isValid("http://www.amazon.com:80"));
+	   System.out.println(urlVal.isValid("http://0.0.0.0:80")); 
+	   System.out.println(urlVal.isValid("ftp://ftp.xyz.com:300"));
+	   System.out.println(urlVal.isValid("ftp://ftp.xyz.com:21"));
+	  
 	   
+	   //false
+	   System.out.println(urlVal.isValid("ftp://:21"));
+	   System.out.println(urlVal.isValid("http://:80")); 
+	   System.out.println(urlVal.isValid("http://amazon.com::80"));
+	   
+	   //these queries are false, but should be true
+	   System.out.println(urlVal.isValid("https://www.google.com/?id=200"));
+	   System.out.println(urlVal.isValid("http://www.superman.com?p1=v1&p2=v2"));
+	   System.out.println(urlVal.isValid("http://www.foo.bar/image.jpg?height=150&width=100"));
+	   
+	   //this port is false, but should be true
+	   System.out.println(urlVal.isValid("ftp://ftp.xyz.com:6000"));
+	   System.out.println(urlVal.isValid("http://www.amazon.com:8080"));
 	   
    }
    
