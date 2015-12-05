@@ -16,8 +16,10 @@
  */
 
 
+import org.junit.Assert;
 import junit.framework.TestCase;
-
+import java.lang.*;
+import java.util.Random;;
 
 
 
@@ -36,12 +38,12 @@ public class UrlValidatorTest extends TestCase {
       super(testName);
    }
    // valid urlParts
-   String valid_schemes[]={};
-   String valid_hosts[]={};
-   String valid_ports[]={};
-   String valid_queries[]={};
-   String valid_paths[]={};
-   String valid_fragments[]={};
+   String valid_schemes[]={"File", "ftp", "gopher", "http", "https", "ldap", "mailto", "net.pipe", "net.tcp", "news", "nntp", "telnet", "uuid"};
+   String valid_hosts[]={"foo.com", "www.example.com"};
+   String valid_ports[]={"0.0.0.0:80", ":80",":300",":21"};
+   String valid_queries[]={"?p=364&g=389", "?add=cats",""};
+   String valid_paths[]={"/path", ""};
+   String valid_fragments[]={"#section_2",""};
    //invalid urlParts
    String invalid_schemes[]={};
    String invalid_hosts[]={};
@@ -52,24 +54,62 @@ public class UrlValidatorTest extends TestCase {
    
    
    
-   
-   public void genTestSet(String schemes[],String hosts[],String ports[], String queries[],String path[], String fragments[]){
+  
+   public void genTestSet(boolean expected, String schemes[],String hosts[],String ports[], String queries[],String paths[], String fragments[]){
 	   
-   };
+	  
+	   
+	   int scheme_count=schemes.length;
+	   int host_count=hosts.length;
+	   int port_count= ports.length;
+	   int query_count=queries.length;
+	   int path_count=paths.length;
+	   int fragment_count= fragments.length;
+	   UrlValidator urlVal = new UrlValidator(null, null, UrlValidator.ALLOW_ALL_SCHEMES);
+	   for(int scheme_idx = 0; scheme_idx < scheme_count; scheme_idx++){   
+			for(int host_idx = 0; host_idx < host_count; host_idx++){
+			   for(int port_idx = 0; port_idx < port_count; port_idx++){
+				   for(int query_idx=0; query_idx < query_count; query_idx++){
+					   for(int path_idx=0; path_idx < path_count; path_idx++){
+						   for(int fragment_idx = 0; fragment_idx < fragment_count; fragment_idx++){
+							   String url_string = "";
+							   url_string = url_string.concat(schemes[scheme_idx]);
+							   url_string = url_string.concat(hosts[host_idx]);
+							   url_string = url_string.concat(ports[port_idx]);
+							   url_string = url_string.concat(queries[query_idx]);
+							   url_string = url_string.concat(paths[path_idx]);
+							   url_string = url_string.concat(fragments[fragment_idx]);
+							   System.out.println(url_string);
+							   Boolean actual = urlVal.isValid(url_string);
+							   // System.out.println(expected + " == " + actual);
+							   Assert.assertEquals(expected, actual);
+							   // System.out.println(urlVal.isValid(url_string));
+							   
+						   }
+					   }
+				   }
+			   }
+			}
+	}
+
    
+   }
    
    public void testManualTest()
    {
 	   UrlValidator urlVal = new UrlValidator(null, null, UrlValidator.ALLOW_ALL_SCHEMES);
-	   System.out.println(urlVal.isValid("http://www.amazon.com"));
-	   System.out.println(urlVal.isValid("http://www.amazon.com/path#div"));
+	  // System.out.println(urlVal.isValid("http://www.amazon.com"));
+	  // System.out.println(urlVal.isValid("http://www.amazon.com/path#div"));
 	   
 	   
+	
    }
    
    
    public void testYourFirstPartition()
    {
+	   boolean expected = false;
+	   genTestSet(expected,valid_schemes,valid_hosts,valid_ports, valid_queries,valid_paths,valid_fragments);
 	   
    }
    
