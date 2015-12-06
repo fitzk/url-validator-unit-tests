@@ -38,19 +38,19 @@ public class UrlValidatorTest extends TestCase {
       super(testName);
    }
    // valid urlParts
-   String valid_schemes[]={"File", "ftp", "gopher", "http", "https", "ldap", "mailto", "net.pipe", "net.tcp", "news", "nntp", "telnet", "uuid"};
+   String valid_schemes[]={"File://", "ftp://", "gopher://", "http://", "https://", "ldap://", "mailto://", "net.pipe://", "net.tcp://", "news://", "nntp://", "telnet://", "uuid://"};
    String valid_hosts[]={"foo.com", "www.example.com"};
-    String valid_ports[]={":8080", ":80",":300",":21"};
-    String valid_queries[]={"?p=364&g=389", "?add=cats","?height=150&width=100"};
-   String valid_paths[]={"/path", ""};
+   String valid_ports[]={":8080", ":80",":300",":21"};
+   String valid_queries[]={"?p=364&g=389", "?add=cats","?height=150&width=100"};
+   String valid_paths[]={"/path", "","/ispath;variable=V4LUE"};
    String valid_fragments[]={"#section_2",""};
    //invalid urlParts
    String invalid_schemes[]={"http:///", "http://.", "http:// ", "http!://"};
    String invalid_hosts[]={};
-    String invalid_ports[]={":80000000", "::80", ";300", ",21"};
-    String invalid_queries[]={"??add=add", "?p1=v1&&p2=v2", "?height=150&==100"};
-   String invalid_paths[]={};
-   String invalid_fragments[]={};
+   String invalid_ports[]={":80000000", "::80", ";300", ",21"};
+   String invalid_queries[]={"??add=add", "?p1=v1&&p2=v2", "?height=150&==100"};
+   String invalid_paths[]={"/word space", " no/slash","/ space/path" };
+   String invalid_fragments[]={"#\\?", "##"};
    
    
    
@@ -79,9 +79,8 @@ public class UrlValidatorTest extends TestCase {
 							   url_string = url_string.concat(queries[query_idx]);
 							   url_string = url_string.concat(paths[path_idx]);
 							   url_string = url_string.concat(fragments[fragment_idx]);
-							   System.out.println(url_string);
 							   Boolean actual = urlVal.isValid(url_string);
-							   // System.out.println(expected + " == " + actual);
+							   System.out.println(url_string+"   Expected:"+ expected + " Actual:" + actual);
 							   Assert.assertEquals(expected, actual);
 							   // System.out.println(urlVal.isValid(url_string));
 							   
@@ -106,24 +105,29 @@ public class UrlValidatorTest extends TestCase {
    }
    
    
-   public void testYourFirstPartition()
+   public void testAllValid()
    {
-	   boolean expected = false;
+	   boolean expected = true;
+	   System.out.println("		Testing all valid url combinations...");
 	   genTestSet(expected,valid_schemes,valid_hosts,valid_ports, valid_queries,valid_paths,valid_fragments);
-	   
+	   System.out.println("		Finish testing all valid url combinations...");	   
    }
    
-   public void testYourSecondPartition(){
-	   
-   }
-   
-   
-   public void testIsValid()
+   public void testInvalidPaths()
    {
-	   for(int i = 0;i<10000;i++)
-	   {
-		   
-	   }
+	   System.out.println("		Testing url combinations with invalid path...");
+	   boolean expected = false;
+	   genTestSet(expected,valid_schemes,valid_hosts,valid_ports, valid_queries,invalid_paths,valid_fragments);
+	   System.out.println("		Finish testing url combinations with invalid path...");
+   }
+   
+   
+   public void testInvalidFragments()
+   {
+	   System.out.println("		Testing url combinations with invalid fragments...");
+	   boolean expected = false;
+	   genTestSet(expected,valid_schemes,valid_hosts,valid_ports, valid_queries,valid_paths,invalid_fragments);
+	   System.out.println("		Finish testing url combinations with invalid fragments...");
    }
    
    public void testAnyOtherUnitTest()
