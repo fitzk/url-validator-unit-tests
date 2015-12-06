@@ -45,7 +45,7 @@ public class UrlValidatorTest extends TestCase {
    String valid_paths[]={"/path", ""};
    String valid_fragments[]={"#section_2",""};
    //invalid urlParts
-   String invalid_schemes[]={};
+   String invalid_schemes[]={"http:///", "http://.", "http:// ", "http!://"};
    String invalid_hosts[]={};
     String invalid_ports[]={":80000000", "::80", ";300", ",21"};
     String invalid_queries[]={"??add=add", "?p1=v1&&p2=v2", "?height=150&==100"};
