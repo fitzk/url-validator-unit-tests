@@ -19,7 +19,7 @@
 import org.junit.Assert;
 import junit.framework.TestCase;
 import java.lang.*;
-import java.util.Random;;
+import java.util.Random;
 
 
 
@@ -40,15 +40,15 @@ public class UrlValidatorTest extends TestCase {
    // valid urlParts
    String valid_schemes[]={"File", "ftp", "gopher", "http", "https", "ldap", "mailto", "net.pipe", "net.tcp", "news", "nntp", "telnet", "uuid"};
    String valid_hosts[]={"foo.com", "www.example.com"};
-   String valid_ports[]={"0.0.0.0:80", ":80",":300",":21"};
-   String valid_queries[]={"?p=364&g=389", "?add=cats",""};
+    String valid_ports[]={":8080", ":80",":300",":21"};
+    String valid_queries[]={"?p=364&g=389", "?add=cats","?height=150&width=100"};
    String valid_paths[]={"/path", ""};
    String valid_fragments[]={"#section_2",""};
    //invalid urlParts
    String invalid_schemes[]={};
    String invalid_hosts[]={};
-   String invalid_ports[]={};
-   String invalid_queries[]={};
+    String invalid_ports[]={":80000000", "::80", ";300", ",21"};
+    String invalid_queries[]={"??add=add", "?p1=v1&&p2=v2", "?height=150&==100"};
    String invalid_paths[]={};
    String invalid_fragments[]={};
    
