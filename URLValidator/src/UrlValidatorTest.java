@@ -39,14 +39,14 @@ public class UrlValidatorTest extends TestCase {
    }
    // valid urlParts
    String valid_schemes[]={"File://", "ftp://", "gopher://", "http://", "https://", "ldap://", "mailto://", "net.pipe://", "net.tcp://", "news://", "nntp://", "telnet://", "uuid://"};
-   String valid_hosts[]={"foo.com", "www.example.com"};
+   String valid_hosts[]={"foo.com", "www.example.com", "255.255.255.255"};
    String valid_ports[]={":8080", ":80",":300",":21"};
    String valid_queries[]={"?p=364&g=389", "?add=cats","?height=150&width=100"};
    String valid_paths[]={"/path", "","/ispath;variable=V4LUE"};
    String valid_fragments[]={"#section_2",""};
    //invalid urlParts
    String invalid_schemes[]={"http:///", "http://.", "http:// ", "http!://"};
-   String invalid_hosts[]={};
+   String invalid_hosts[]={"123.123.123", "269.434.383.375", "356.456.1.17"};
    String invalid_ports[]={":80000000", "::80", ";300", ",21"};
    String invalid_queries[]={"??add=add", "?p1=v1&&p2=v2", "?height=150&==100"};
    String invalid_paths[]={"/word space", " no/slash","/ space/path" };
