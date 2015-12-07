@@ -100,6 +100,26 @@ public class UrlValidatorTest extends TestCase {
 	  // System.out.println(urlVal.isValid("http://www.amazon.com"));
 	  // System.out.println(urlVal.isValid("http://www.amazon.com/path#div"));
 	   
+       //true
+       System.out.println(urlVal.isValid("http://www.amazon.com:80"));
+       System.out.println(urlVal.isValid("http://0.0.0.0:80"));
+       System.out.println(urlVal.isValid("ftp://ftp.xyz.com:300"));
+       System.out.println(urlVal.isValid("ftp://ftp.xyz.com:21"));
+       
+       
+       //false
+       System.out.println(urlVal.isValid("ftp://:21"));
+       System.out.println(urlVal.isValid("http://:80"));
+       System.out.println(urlVal.isValid("http://amazon.com::80"));
+       
+       //these queries are false, but should be true
+       System.out.println(urlVal.isValid("https://www.google.com/?id=200"));
+       System.out.println(urlVal.isValid("http://www.superman.com?p1=v1&p2=v2"));
+       System.out.println(urlVal.isValid("http://www.foo.bar/image.jpg?height=150&width=100"));
+       
+       // this port is false, but should be true
+       System.out.println(urlVal.isValid("ftp://ftp.xyz.com:6000"));
+       System.out.println(urlVal.isValid("http://www.amazon.com:8080"));
 	   
 	
    }
@@ -130,6 +150,23 @@ public class UrlValidatorTest extends TestCase {
 	   System.out.println("		Finish testing url combinations with invalid fragments...");
    }
    
+    public void testInvalidPorts()
+    {
+        System.out.println("		Testing url combinations with invalid ports...");
+        boolean expected = false;
+        genTestSet(expected,valid_schemes, valid_hosts, valid_ports, valid_queries, valid_paths, valid_fragments);
+        System.out.println("		Finish testing url combinations with invalid fragments...");
+    }
+    
+    public void testInvalidQueries()
+    {
+        System.out.println("		Testing url combinations with invalid queries...");
+        boolean expected = false;
+        genTestSet(expected,valid_schemes,valid_hosts,valid_ports, valid_queries, valid_paths, valid_fragments);
+        System.out.println("		Finish testing url combinations with invalid path...");
+    }
+    
+    
    public void testAnyOtherUnitTest()
    {
 	   
